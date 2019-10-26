@@ -34,6 +34,25 @@ function SEO({ description, lang, meta, title }) {
       }}
       title={title}
       titleTemplate={`%s | ${site.siteMetadata.title}`}
+      script={[
+        // {
+        //   src: "https://www.gstatic.com/firebasejs/7.2.2/firebase.js",
+        // },
+      ]}
+      link={[
+        {
+          href:
+            "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css",
+          rel: "stylesheet",
+          type: "text/css",
+        },
+        {
+          href:
+            "https://fonts.googleapis.com/css?family=Montserrat&display=swap",
+          rel: "stylesheet",
+          type: "text/css",
+        },
+      ]}
       meta={[
         {
           name: `description`,

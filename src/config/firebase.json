@@ -1,0 +1,8 @@
+{
+  "authDomain": "visumm.firebaseapp.com",
+  "databaseURL": "https://visumm.firebaseio.com",
+  "projectId": "visumm",
+  "storageBucket": "visumm.appspot.com",
+  "messagingSenderId": "689185153900",
+  "appId": "1:689185153900:web:a52c1c160a24b37c7cc949"
+}
