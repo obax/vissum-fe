@@ -47,7 +47,7 @@ const IndexPage = () => {
           width: 150px;
         `}
       />
-      <SEO title="Welcome to Vissum, the Youtube video summarizer" />
+      <SEO title="Welcome to Vissum, the Youtube video summarizer " />
       <h1
         className={css`
           color: #d6deeb;
@@ -71,9 +71,11 @@ const IndexPage = () => {
             <tr
               key={key}
               className={css`
-                background-color: #e89a9a;
+                background-color: #da9696;
+                & td {
+                  padding: 15px;
+                }
                 color: black;
-                padding: 5px;
                 font-family: "Courier New", Courier, "Lucida Sans Typewriter",
                   "Lucida Typewriter", monospace;
               `}
@@ -81,7 +83,7 @@ const IndexPage = () => {
               <td>{collectionFiles[key].title}</td>
               <td>{collectionFiles[key].state}</td>
               <td></td>
-              <td>{Date(collectionFiles[key].created.seconds, "h")}</td>
+              <td>{Date(collectionFiles[key].created.seconds * 1000)}</td>
             </tr>
           ))}
         </tbody>
