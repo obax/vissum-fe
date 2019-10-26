@@ -1,6 +1,5 @@
 import React from "react"
 import { Link } from "gatsby"
-
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import RequestForm from "../components/request-input"
@@ -11,31 +10,35 @@ import Logo from "../images/logo.inline.svg"
 import FirebaseConfig from "../config/firebase.json"
 import * as firebase from "firebase"
 
+if (!firebase.apps.length) {
+  firebase.initializeApp(FirebaseConfig)
+}
+
 const IndexPage = () => {
   const [collectionFiles, setCollectionFiles] = React.useState({})
-  firebase.initializeApp(FirebaseConfig)
 
-  const query = firebase
+  const query = firebase.apps[0]
     .firestore()
     .collection("visumm-task-status")
     .orderBy("created", "desc")
     .limit(20)
 
-  query.onSnapshot(snapshot => {
-    snapshot.docChanges().forEach(({ doc, type }) => {
-      switch (type) {
-        case "removed":
-          var tmpCol = collectionFiles
-          delete tmpCol[doc.id]
-          setCollectionFiles(tmpCol)
-          break
-        default:
-          var tmpCol = collectionFiles
-          tmpCol[doc.id] = doc.data()
-          setCollectionFiles(tmpCol)
-      }
+  React.useEffect(() => {
+    query.onSnapshot(snapshot => {
+      snapshot.docChanges().forEach(({ doc, type }) => {
+        let collectionFilesCopy = collectionFiles
+        switch (type) {
+          case "removed":
+            delete collectionFilesCopy[doc.id]
+            setCollectionFiles(collectionFilesCopy)
+            break
+          default:
+            collectionFilesCopy[doc.id] = doc.data()
+        }
+        setCollectionFiles(collectionFilesCopy)
+      })
     })
-  })
+  }, [])
 
   return (
     <Layout>
@@ -45,29 +48,44 @@ const IndexPage = () => {
         `}
       />
       <SEO title="Welcome to Vissum, the Youtube video summarizer" />
-      <h1>Welcome to Vissum</h1>
-      <h2
+      <h1
         className={css`
           color: #d6deeb;
         `}
       >
         The Youtube video summarizer
-      </h2>
+      </h1>
+      <p>Start by entering a Youtube url below </p>
       <RequestForm />
       <table>
-        <th>
-          <td>Title</td>
-          <td>Status</td>
-          <td>Progress</td>
-        </th>
-        {collectionFiles.map((file, index) => (
-          <tr key={index}>
-            <td>{JSON.stringify(file)}</td>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Status</th>
+            <th>Progress</th>
+            <th>Created on</th>
           </tr>
-        ))}
+        </thead>
+        <tbody>
+          {Object.keys(collectionFiles).map((key, index) => (
+            <tr
+              key={key}
+              className={css`
+                background-color: #e89a9a;
+                color: black;
+                padding: 5px;
+                font-family: "Courier New", Courier, "Lucida Sans Typewriter",
+                  "Lucida Typewriter", monospace;
+              `}
+            >
+              <td>{collectionFiles[key].title}</td>
+              <td>{collectionFiles[key].state}</td>
+              <td></td>
+              <td>{Date(collectionFiles[key].created.seconds, "h")}</td>
+            </tr>
+          ))}
+        </tbody>
       </table>
-      <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}></div>
-      <Link to="/page-2/">Go to page 2</Link>
     </Layout>
   )
 }

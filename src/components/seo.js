@@ -34,11 +34,7 @@ function SEO({ description, lang, meta, title }) {
       }}
       title={title}
       titleTemplate={`%s | ${site.siteMetadata.title}`}
-      script={[
-        // {
-        //   src: "https://www.gstatic.com/firebasejs/7.2.2/firebase.js",
-        // },
-      ]}
+      script={[]}
       link={[
         {
           href:

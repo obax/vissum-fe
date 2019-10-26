@@ -185,7 +185,7 @@ textarea {
   font: inherit;
 }
 html {
-  font: 112.5%/1.45em ;
+  font: 112.5%/1.45em;
   box-sizing: border-box;
   overflow-y: scroll;
 }
@@ -200,6 +200,7 @@ html {
 }
 body {
   background-color: #011627 !important;
+  color: lightgreen !important;
   font-family: georgia, serif;
   font-weight: normal;
   word-wrap: break-word;
